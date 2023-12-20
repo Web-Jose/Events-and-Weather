@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fresno Information Dashboard</title>
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="CSS/Weather.css" />
+    <link rel="stylesheet" href="CSS/Fresno.css" />
+    <link rel="stylesheet" href="CSS/FresnoState.css" />
+    <!-- Link to JS -->
+    <script src="JS/Weather.js" defer></script>
+    <script src="JS/Fresno.js" defer></script>
+    <script src="JS/FresnoState.js" defer></script>
+    <!-- Link to Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Link to Icons -->
+    <link rel="stylesheet" href="CSS\weather-icons.min.css" />
+  </head>
+  <body>
+    <section class="information-dash">
+      <div class="city-date">
+        <span class="city">Fresno, CA</span>
+        <span class="date"></span>
+      </div>
+      <div class="weather-container">
+        <div class="morning">
+          <span class="time-of-day">Morning</span>
+          <div class="weather">
+            <div class="weather-icon"><i class="wi"></i></div>
+            <span class="weather-temp"></span>
+          </div>
+          <div class="secondary-condition"></div>
+        </div>
+        <div class="afternoon">
+          <span class="time-of-day">Afternoon</span>
+          <div class="weather">
+            <div class="weather-icon"><i class="wi"></i></div>
+            <span class="weather-temp"></span>
+          </div>
+          <div class="secondary-condition"></div>
+        </div>
+        <div class="evening">
+          <span class="time-of-day">Evening</span>
+          <div class="weather">
+            <div class="weather-icon"><i class="wi"></i></div>
+            <span class="weather-temp"></span>
+          </div>
+          <div class="secondary-condition"></div>
+        </div>
+        <div class="overnight">
+          <span class="time-of-day">Overnight</span>
+          <div class="weather">
+            <div class="weather-icon"><i class="wi"></i></div>
+            <span class="weather-temp"></span>
+          </div>
+          <div class="secondary-condition"></div>
+        </div>
+      </div>
+      <div class="time-container">
+        <span class="clock"></span>
+      </div>
+    </section>
+    <section class="events-section">
+      <section class="fresno-events">
+        <div class="fresno-events-header">
+          <span>Happening in Fresno</span>
+          <hr />
+        </div>
+        <div class="fresno-events-container"></div>
+      </section>
+      <section class="fs-events">
+        <div class="fs-events-header">
+          <span>Happening at Fresno State</span>
+          <hr />
+        </div>
+        <div class="fs-events-container"></div>
+      </section>
+    </section>
+  </body>
+</html>
