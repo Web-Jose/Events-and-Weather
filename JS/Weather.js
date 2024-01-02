@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function fetchWeatherData() {
   const apiKey = "9226554d185a4becb47223723231812";
-  const url = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Fresno&days=2&aqi=yes&alerts=yes`;
+  const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Fresno&days=2&aqi=yes&alerts=yes`;
 
   fetch(url)
     .then((response) => response.json())
