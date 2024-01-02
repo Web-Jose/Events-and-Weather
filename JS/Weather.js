@@ -19,7 +19,6 @@ const months = [
 ];
 document.querySelector(".date").innerHTML =
   months[month] + " " + date + ", " + year;
-// 9226554d185a4becb47223723231812
 
 // Weather using Weather API
 document.addEventListener("DOMContentLoaded", function () {
@@ -72,12 +71,14 @@ function updateWeatherInfo(forecast, hour, period) {
     `.${period} .secondary-condition`
   );
   let secondaryInfo = "";
-
   if (weatherData.will_it_rain == 1) {
     secondaryInfo = `<i class="wi wi-raindrops"></i> ${weatherData.chance_of_rain}% Chance of Rain`;
   } else if (weatherData.condition.text.toLowerCase().includes("fog")) {
     secondaryInfo = `Visibility: ${weatherData.vis_km} km`;
-  } else if (weatherData.air_quality["us-epa-index"] > 2) {
+  } else if (
+    weatherData.air_quality &&
+    weatherData.air_quality["us-epa-index"] > 2
+  ) {
     let airQualityTitle;
     switch (weatherData.air_quality["us-epa-index"]) {
       case 3:

@@ -1,56 +1,68 @@
-fetch(
-  "https://25livepub.collegenet.com/calendars/all-non-academic.rss?mixin=5578"
-)
-  .then((response) => response.text())
-  .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
-  .then((data) => {
-    const items = data.querySelectorAll("item");
+fetch("http://localhost:3000/api/events")
+  .then((response) => response.json())
+  .then((json) => {
+    const items = json.rss.channel[0].item;
     const eventsContainer = document.querySelector(".fs-events-container");
-    const allowedCategories = [
-      "Campus Events/Activities",
-      "Diversity Calendar",
-      "Library Meetings/Workshops",
-      "Music/Theatre Events",
-      "Open to Public",
-      "Save Mart Center",
-      "Student Involvement",
-    ];
 
     items.forEach((item) => {
-      const title = item.querySelector("title").textContent;
-      const description = item.querySelector("description").textContent;
-      const categories = description
-        .match(/<b>Categories<\/b>:&nbsp;(.+?)<br\/>/)[1]
-        .split(", ");
+      const title = item.title[0];
+      const description = item.description[0];
+      const categoriesMatch = description.match(
+        /<b>Categories<\/b>:&nbsp;(.+?)<br\/>/
+      );
+      let categories = categoriesMatch ? categoriesMatch[1].split(", ") : [];
 
-      if (
-        categories.some((category) =>
-          allowedCategories.includes(category.trim())
-        )
-      ) {
-        const dateTimeRegex =
-          /(\w+,\s\w+\s\d{1,2},\s\d{4},\s\d{1,2}:\d{2}\s(?:AM|PM)\s&ndash;&nbsp;\d{1,2}:\d{2}\s(?:AM|PM))/;
-        const dateTimeMatch = description.match(dateTimeRegex);
-        const dateTime = dateTimeMatch
-          ? dateTimeMatch[0]
-          : "Date/Time not available";
-        const locationRegex = /^(.+?)<br\/>/;
-        const locationMatch = description.match(locationRegex);
-        const location = locationMatch
-          ? locationMatch[1]
-          : "Location not available";
+      // Remove 'Display On (Master) Campus Events/Activities Calendar' and 'Display On Music/Theatre Calendar' from categories
+      categories = categories.filter(
+        (category) =>
+          category !==
+            "Display On (Master) Campus Events/Activities Calendar" &&
+          category !== "Display On Music/Theatre Calendar" &&
+          category !== "Display On (Master) Campus Events/Activities Calendar "
+      );
+      let categorySpans = categories
+        .map((category) => `<span class="event-cat">${category}</span>`)
+        .join(" ");
+      /*
+      const descriptionTextMatch = description.match(/<p>(.*?)<\/p>/);
+      const descriptionText = descriptionTextMatch
+        ? descriptionTextMatch[1]
+        : "";
+      */
 
-        const eventHtml = `
-          <div class="event-info">
-            <span class="event-title">${title}</span>
-            <span class="event-date-time">${dateTime}</span>
-            <span class="event-location">${location}</span>
-            <div class="event-categories">${categories.join(", ")}</div>
+      const dateTime = new Date(item.pubDate[0]);
+      // Convert GMT to PST (GMT-8)
+      dateTime.setHours(dateTime.getHours());
+      const options = {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      };
+      const formattedDate = dateTime.toLocaleDateString("en-US", options);
+      const formattedTime = dateTime.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+      });
+
+      const locationRegex = /^(.+?)<br\/>/;
+      const locationMatch = description.match(locationRegex);
+      const location = locationMatch
+        ? locationMatch[1]
+        : "Location not available";
+
+      const eventHtml = `
+        <div class="event-info">
+          <span class="event-title">${title}</span>
+          <div class="event-date-time">
+            <span class="event-date">${formattedDate}</span>
+            <span class="event-time">${formattedTime}</span>
           </div>
-        `;
+          <span class="event-location">${location}</span>
+          <div class="event-categories">${categorySpans}</div>
+        </div>
+      `;
 
-        eventsContainer.innerHTML += eventHtml;
-      }
+      eventsContainer.innerHTML += eventHtml;
     });
   })
   .catch((error) =>
