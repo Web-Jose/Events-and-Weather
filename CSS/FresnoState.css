@@ -6,7 +6,7 @@
   background-color: rgba(19, 40, 76, 0.6);
   height: 90%;
   color: white;
-  gap: 1vw;
+  gap: 0.5vw;
   width: 45%;
   border-radius: 1vh;
   overflow: hidden;
@@ -16,7 +16,7 @@
 .fresno-events-container {
   display: flex;
   flex-direction: column;
-  gap: 1vw;
+  gap: 0.75vw;
   margin: 0 0.8vw;
 }
 .event-info {
@@ -27,7 +27,7 @@
   font-weight: 300;
   font-size: 1.5vw;
   background-color: #00000066;
-  padding: 0.75vw;
+  padding: 0.5vw;
   border-radius: 0.75vw;
 }
 .event-title,
