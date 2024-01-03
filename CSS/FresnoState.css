@@ -12,7 +12,8 @@
   overflow: hidden;
 }
 
-.fs-events-container {
+.fs-events-container,
+.fresno-events-container {
   display: flex;
   flex-direction: column;
   gap: 1vw;
@@ -29,13 +30,15 @@
   padding: 0.75vw;
   border-radius: 0.75vw;
 }
-.event-title {
+.event-title,
+.fresno-title {
   font-size: 1.5vw;
   font-weight: 600;
 }
 .event-date-time {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  gap: 4vw;
 }
 .event-categories {
   display: flex;
