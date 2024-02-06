@@ -1,4 +1,16 @@
 runtime: nodejs
 env: flex
+
 runtime_config:
   nodejs_version: "21.5.0"
+
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10 # Adjust based on your application's need
+
+automatic_scaling:
+  min_num_instances: 1 # Minimum number of instances
+  max_num_instances: 3 # Maximum number of instances
+  cpu_utilization:
+    target_utilization: 0.6

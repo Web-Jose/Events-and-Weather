@@ -1,4 +1,4 @@
-fetch("https://proxy-server-fs.wl.r.appspot.com/api/fresno")
+fetch("https://proxy-server-housing.wl.r.appspot.com/api/fresno")
   .then((response) => response.json())
   .then((json) => {
     const items = json.rss.channel[0].item;
