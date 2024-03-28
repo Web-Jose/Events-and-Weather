@@ -1,18 +1,39 @@
-fetch("https://proxy-server-housing.wl.r.appspot.com/api/fresno")
+// Encode the RSS feed URL
+const fresnoRSS = encodeURIComponent(
+  "https://www.visitfresnocounty.org/event/rss/"
+);
+
+console.time("FetchTime");
+// Fetch the RSS feed through AllOrigins
+fetch(`https://api.allorigins.win/get?url=${fresnoRSS}`)
   .then((response) => response.json())
-  .then((json) => {
-    const items = json.rss.channel[0].item;
+  .then((data) => {
+    console.timeEnd("FetchTime");
+    // Assuming the data.contents is a string of your RSS XML
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+
+    // Proceed with your existing logic, adjusted for direct XML manipulation
+    const items = xmlDoc.querySelectorAll("item");
     const eventsContainer = document.querySelector(".fresno-events-container");
 
     items.forEach((item) => {
-      const title = item.title[0];
-      const categories = item.category.map((cat) => cat.trim());
+      const title = item.getElementsByTagName("title")[0].textContent;
+      const categoryElements = item.getElementsByTagName("category");
+      const categories = Array.from(categoryElements).map((cat) =>
+        cat.textContent.trim()
+      );
+
       // Skip events with the 'Brewery Events' category
       if (categories.includes("Brewery Events")) {
         return;
       }
-      const pubDate = new Date(item.pubDate[0]);
-      const description = item.description[0];
+
+      const pubDate = new Date(
+        item.getElementsByTagName("pubDate")[0].textContent
+      );
+      const description =
+        item.getElementsByTagName("description")[0].textContent;
 
       // Extract and modify the image URL from the description
       const imageRegex = /<img src='([^']+)'/;
@@ -25,6 +46,7 @@ fetch("https://proxy-server-housing.wl.r.appspot.com/api/fresno")
         day: "numeric",
         year: "numeric",
       });
+
       const categorySpans = categories
         .map((category) => `<span class="event-cat">${category}</span>`)
         .join(" ");
