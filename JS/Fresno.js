@@ -3,16 +3,18 @@ const fresnoRSS = encodeURIComponent(
   "https://www.visitfresnocounty.org/event/rss/"
 );
 
-console.time("FetchTime");
 // Fetch the RSS feed through AllOrigins
 fetch(`https://api.allorigins.win/get?url=${fresnoRSS}`)
   .then((response) => response.json())
   .then((data) => {
-    console.timeEnd("FetchTime");
+    data.contents = data.contents.replace(
+      "data:application/rss+xml; charset=UTF-8;base64,",
+      ""
+    );
+    data.contents = atob(data.contents);
     // Assuming the data.contents is a string of your RSS XML
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-
     // Proceed with your existing logic, adjusted for direct XML manipulation
     const items = xmlDoc.querySelectorAll("item");
     const eventsContainer = document.querySelector(".fresno-events-container");
